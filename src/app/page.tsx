@@ -1,41 +1,49 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ProductLayout } from "./__layout/Product.layout";
+import { API_ROUTE } from "@/__const/const";
 const brands = [
   {
-    id: 'versace',
-    url: 'brands/versace.png',
-    alt: 'versace'
+    id: "versace",
+    url: "brands/versace.png",
+    alt: "versace",
   },
   {
-    id: 'gucci',
-    url: 'brands/gucci.png',
-    alt: 'gucci'
+    id: "gucci",
+    url: "brands/gucci.png",
+    alt: "gucci",
   },
   {
-    id: 'prada',
-    url: 'brands/prada.png',
-    alt: 'prada'
+    id: "prada",
+    url: "brands/prada.png",
+    alt: "prada",
   },
   {
-    id: 'ck',
-    url: 'brands/ck.png',
-    alt: 'ck'
+    id: "ck",
+    url: "brands/ck.png",
+    alt: "ck",
   },
   {
-    id: 'zara',
-    url: 'brands/zara.png',
-    alt: 'zara'
+    id: "zara",
+    url: "brands/zara.png",
+    alt: "zara",
   },
-]
-function Brand({ url, alt } : { url: string, alt: string }) {
+];
+
+function Brand({ url, alt }: { url: string; alt: string }) {
   return (
     <div className="">
       <img src={url} alt={alt} />
     </div>
-  )
+  );
 }
-function Home() {
+async function Home() {
+  const bestProductsData = await fetch(`${API_ROUTE}/product/best`);
+  const bestProducts = (await bestProductsData.json()).data;
+
+  const productsData = await fetch(`${API_ROUTE}/product/new`);
+  const products = (await productsData.json()).data;
+
   return (
     <div className="">
       <div
@@ -75,22 +83,59 @@ function Home() {
             </div>
           </div>
         </section>
-        
       </div>
       {/* Brands section */}
       <div className="bg-black w-full py-6">
         <section className="max-w-screen-xl mx-auto flex flex-col lg:flex-row items-center justify-between bg-black">
-            {
-              brands.map((brand) => {
-                return <Brand url={brand.url} alt={brand.alt} key={brand.id}/>
-              })
-            }
+          {brands.map((brand) => {
+            return <Brand url={brand.url} alt={brand.alt} key={brand.id} />;
+          })}
         </section>
       </div>
       {/* Products section */}
-      <ProductLayout>
-        
-      </ProductLayout>
+      <ProductLayout title="new arrivals" href="/" products={products} />
+      <hr className="my-4 w-[1280px] m-auto opacity-20" />
+      <ProductLayout title="top selling" href="/" products={bestProducts} />
+      {/* Category section */}
+      <div className="bg-gray-200 my-10 mx-auto w-[1280px] rounded-3xl">
+        <h1 className="text-[48px] uppercase font-extrabold text-center ">
+          browse by dress style
+        </h1>
+        <div className="[&_div]:h-[250px] [&_div]:w-full m-auto w-[1280px] grid grid-cols-3 grid-rows-2 gap-4 [&_div]:bg-no-repeat [&_div]:bg-center [&_div]:bg-cover px-16 py-8">
+          <div
+            className="w-full rounded-3xl px-5 py-10 text-black font-bold text-4xl"
+            style={{
+              backgroundImage: "url('/category/casual.png')",
+            }}
+          >
+            Casual
+          </div>
+          <div
+            className=" w-full col-span-2 rounded-3xl px-5 py-10 text-black font-bold text-4xl"
+            style={{
+              backgroundImage: "url('/category/formal.png')",
+            }}
+          >
+            Formal
+          </div>
+          <div
+            className=" col-span-2 row-start-2 rounded-3xl px-5 py-10 text-black font-bold text-4xl"
+            style={{
+              backgroundImage: "url('/category/party.png')",
+            }}
+          >
+            Party
+          </div>
+          <div
+            className=" col-start-3 row-start-2 rounded-3xl px-5 py-10 text-black font-bold text-4xl"
+            style={{
+              backgroundImage: "url('/category/gym.png')",
+            }}
+          >
+            Gym
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
