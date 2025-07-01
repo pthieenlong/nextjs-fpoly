@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Roboto, Poppins } from "next/font/google";
 import "./globals.css";
-import Header from "@/__components/Header";
-import Footer from "@/__components/Footer";
-import Navbar from "@/__components/Navbar";
+import '@smastrom/react-rating/style.css'
+import Header from "@/app/__components/Header";
+import Footer from "@/app/__components/Footer";
+import Navbar from "@/app/__components/Navbar";
 const roboto = Roboto({
   weight: '400',
   subsets: ['latin'],
@@ -32,7 +33,7 @@ export default function RootLayout({
       >
         <div className="m-auto">
           <Header></Header>
-          <main className="min-h-[300] bg-emerald-100">
+          <main className="">
             {children}
           </main>
           <Footer/>
