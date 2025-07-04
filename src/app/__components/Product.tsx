@@ -43,9 +43,10 @@ export default function Product({
           src={imageSrc}
           alt={slug}
           className="w-full hover:scale-125 transition-all"
-          width={400}
-          height={400}
           crossOrigin="anonymous"
+          width={100}
+          height={100}
+          unoptimized
         />
       </div>
       <div className="">
