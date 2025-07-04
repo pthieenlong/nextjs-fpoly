@@ -2,6 +2,7 @@ import React from "react";
 import { Breadcrumbs, Link, Typography } from "@mui/material";
 import { API_ROUTE } from "@/__const/const";
 import ProductLayout from "../__layout/Product.layout";
+import ContentLayout from "../__layout/Content.layout";
 async function ProductDetail({ params }: { params: { slug: string } }) {
   const resolvedParams = await params;
   const productFetching = await fetch(
@@ -13,7 +14,7 @@ async function ProductDetail({ params }: { params: { slug: string } }) {
     console.log(product.data); //redirect to 404 page
   }
   return (
-    <section>
+    <section className="max-w-[1280px] m-auto flex flex-col gap-6">
       {/* Breadcrumbs */}
       <Breadcrumbs aria-label="breadcrumb">
         <Link underline="hover" color="inherit" href="/">
@@ -26,6 +27,7 @@ async function ProductDetail({ params }: { params: { slug: string } }) {
       </Breadcrumbs>
       <ProductLayout product={product} />
       {/* ProductInformation (product detail; rating & reviews; FAQs) */}
+      <ContentLayout />
       {/* Suggest item */}
     </section>
   );

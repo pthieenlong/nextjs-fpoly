@@ -7,11 +7,9 @@ const SizeComponent = ({
   size: string;
   isActive?: boolean;
 }) => {
-  console.log("asdasdas", size);
-
   return (
     <p
-      className={`rounded-3xl font-light ${
+      className={`hover:cursor-pointer rounded-3xl px-6 py-2 text-xs font-light ${
         isActive ? "bg-black text-white" : "bg-gray-400 text-black"
       } `}
     >
