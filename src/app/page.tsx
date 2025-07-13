@@ -1,7 +1,9 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductLayout } from "./__layout/Product.layout";
 import { API_ROUTE } from "@/__const/const";
+import { useEffect, useState } from "react";
 const brands = [
   {
     id: "versace",
@@ -37,13 +39,35 @@ function Brand({ url, alt }: { url: string; alt: string }) {
     </div>
   );
 }
-async function Home() {
-  const bestProductsData = await fetch(`${API_ROUTE}/product/best`);
-  const bestProducts = (await bestProductsData.json()).data;
+function Home() {
+  const [bestProducts, setBestProducts] = useState([]);
+  const [newProducts, setNewProducts] = useState([]);
 
-  const productsData = await fetch(`${API_ROUTE}/product/new`);
-  const products = (await productsData.json()).data;
+  useEffect(() => {
+    fetch(`${API_ROUTE}/product/best`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data.success) setBestProducts(data.data);
+        return data.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
+    fetch(`${API_ROUTE}/product/new`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data.success) setNewProducts(data.data);
+        return data.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <div className="">
       <div
@@ -93,7 +117,7 @@ async function Home() {
         </section>
       </div>
       {/* Products section */}
-      <ProductLayout title="new arrivals" href="/" products={products} />
+      <ProductLayout title="new arrivals" href="/" products={newProducts} />
       <hr className="my-4 w-[1280px] m-auto opacity-20" />
       <ProductLayout title="top selling" href="/" products={bestProducts} />
       {/* Category section */}

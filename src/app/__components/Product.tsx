@@ -13,6 +13,7 @@ export interface IProductProp {
   rating: number;
   isSale: boolean;
   salePercent: number;
+  className?: string;
 }
 export interface IProduct {
   name: string;
@@ -32,20 +33,26 @@ export default function Product({
   rating = 4.5,
   isSale = false,
   salePercent = 0,
+  className = "",
 }: IProductProp) {
   const salePrice = isSale ? (price * salePercent) / 100 : 0;
   const imageSrc = `${API_PUBLIC_ROUTE}${image}`;
   return (
-    <article className="">
-      <div className="overflow-hidden inline-block rounded-lg">
+    <article className={`max-w-[275px] max-h-[500px]`}>
+      <div
+        className={`${
+          className ? className : "w-[250px] h-[300px]"
+        } overflow-hidden inline-block rounded-lg relative`}
+      >
         <Image
           loader={() => imageSrc}
           src={imageSrc}
           alt={slug}
           className="w-full hover:scale-125 transition-all"
           crossOrigin="anonymous"
-          width={100}
-          height={100}
+          fill={true}
+          // width={100}
+          // height={100}
           unoptimized
         />
       </div>

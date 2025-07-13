@@ -1,21 +1,35 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { Breadcrumbs, Link, Typography } from "@mui/material";
 import { API_ROUTE } from "@/__const/const";
 import ProductLayout from "../__layout/Product.layout";
 import ContentLayout from "../__layout/Content.layout";
-async function ProductDetail({ params }: { params: { slug: string } }) {
-  const resolvedParams = await params;
-  const productFetching = await fetch(
-    `${API_ROUTE}/product/${resolvedParams.slug}`
-  );
-  const productResponse = await productFetching.json();
-  const product = productResponse.data;
-  if (!product.data?.success) {
-    console.log(product.data); //redirect to 404 page
-  }
+import { useParams } from "next/navigation";
+function ProductDetail() {
+  const params = useParams();
+  const slug = params.slug;
+
+  const [product, setProduct] = useState();
+  const [productName, setProductName] = useState("");
+  useEffect(() => {
+    fetch(`${API_ROUTE}/product/${slug}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (data.success) {
+          setProduct(data.data);
+          setProductName(data.data.name);
+        }
+        return data;
+      })
+      .catch((error: any) => {
+        return error;
+      });
+  }, [slug]);
+
   return (
     <section className="max-w-[1280px] m-auto flex flex-col gap-6">
-      {/* Breadcrumbs */}
       <Breadcrumbs aria-label="breadcrumb">
         <Link underline="hover" color="inherit" href="/">
           Homepage
@@ -23,12 +37,11 @@ async function ProductDetail({ params }: { params: { slug: string } }) {
         <Link underline="hover" color="inherit" href="/product">
           All products
         </Link>
-        <Typography>{product.name}</Typography>
+        <Typography>{productName}</Typography>
       </Breadcrumbs>
       <ProductLayout product={product} />
-      {/* ProductInformation (product detail; rating & reviews; FAQs) */}
+
       <ContentLayout />
-      {/* Suggest item */}
     </section>
   );
 }

@@ -9,9 +9,9 @@ function Footer() {
           STAY UPTO DATE ABOUT <br /> OUR LATEST OFFERS
         </div>
         <form className="flex flex-col w-xs gap-2">
-          <div className="flex gap-2 items-center px-2 py-1.5 bg-white rounded-2xl">
+          <div className="flex gap-2 items-center px-4 py-2 bg-white rounded-2xl">
             <label htmlFor="subscribe">
-              <EnvelopeIcon className="w-4 text-black opacity-40" />
+              <EnvelopeIcon className="w-6 h-6 text-black opacity-40 " />
             </label>
             <input
               type="text"
@@ -23,7 +23,7 @@ function Footer() {
           </div>
           <button
             type="button"
-            className="bg-white text-black rounded-2xl px-2 py-1.5 font-semibold"
+            className="bg-white text-black rounded-2xl px-4 py-2 font-semibold"
           >
             Subscribe to Newsletter
           </button>

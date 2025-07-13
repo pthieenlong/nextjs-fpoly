@@ -26,6 +26,7 @@ export function ProductLayout({
             isSale={product.isSale}
             salePercent={product.salePercent}
             key={product.slug}
+            className="h-[250px] w-[250px]"
           ></Product>
         ))}
       </div>
