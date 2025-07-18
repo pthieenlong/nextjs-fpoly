@@ -16,7 +16,7 @@ function ProductLayout({ product }: { product: any }) {
           {product.images.map((image: string) => {
             return (
               <ProductImageItemComponent
-                source={`${API_PUBLIC_ROUTE}${image}`}
+                source={image == 'https://placehold.co/600x400' ? 'images/products/fff.png' :`${API_PUBLIC_ROUTE}${image}`}
               />
             );
           })}
