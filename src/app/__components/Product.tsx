@@ -51,8 +51,6 @@ export default function Product({
           className="w-full hover:scale-125 transition-all"
           crossOrigin="anonymous"
           fill={true}
-          // width={100}
-          // height={100}
           unoptimized
         />
       </div>
@@ -81,6 +79,9 @@ export default function Product({
             -{salePercent * 100}%
           </p>
         </div>
+        <button className="hover:cursor-pointer px-4 py-2 rounded bg-black text-white">
+          Add to cart
+        </button>
       </div>
     </article>
   );
