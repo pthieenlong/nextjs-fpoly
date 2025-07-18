@@ -1,3 +1,4 @@
+"use client";
 import { API_ROUTE } from "@/__const/const";
 import { Breadcrumbs, Typography, Link } from "@mui/material";
 import {
@@ -8,12 +9,20 @@ import {
   ArrowRightIcon,
 } from "@heroicons/react/24/outline";
 import Product from "../__components/Product";
+import { useEffect, useState } from "react";
 
-async function ProductPage() {
-  const productsFetched = await fetch(`${API_ROUTE}/product`);
-  const categoriesFetched = await fetch(`${API_ROUTE}/category`);
-  const products = await productsFetched.json();
-  const categories = await categoriesFetched.json();
+function ProductPage() {
+  const [products, setProducts] = useState([]);
+  const [page, setPage] = useState(1);
+  
+  useEffect(() => {
+
+  }, []);
+  // const 
+  // const productsFetched = await fetch(`${API_ROUTE}/product`);
+  // const categoriesFetched = await fetch(`${API_ROUTE}/category`);
+  // const products = await productsFetched.json();
+  // const categories = await categoriesFetched.json();
 
   
   return (
