@@ -19,11 +19,11 @@ function CartItemComponent(props: CartItemProps) {
   const [quantity, setQuantity] = useState(props.quantity ?? 1);
   const onQuantityChange = () => {};
   return (
-    <article className="relative flex w-full gap-4">
+    <article className="relative py-6 flex w-full gap-4 border-b border-gray-300">
       <button className="absolute z-10  right-0">
         <TrashIcon className="w-6 h-6 text-red-500" />
       </button>
-      <div className="relative w-48 overflow-hidden rounded">
+      <div className="relative w-48 overflow-hidden rounded-xl">
         <Image fill={true} src={props.image} alt={props.slug}></Image>
       </div>
       <div className="w-full">

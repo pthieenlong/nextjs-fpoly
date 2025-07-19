@@ -117,9 +117,17 @@ function Home() {
         </section>
       </div>
       {/* Products section */}
-      <ProductLayout title="new arrivals" href="/products" products={newProducts} />
+      <ProductLayout
+        title="new arrivals"
+        href="/products"
+        products={newProducts}
+      />
       <hr className="my-4 w-[1280px] m-auto opacity-20" />
-      <ProductLayout title="top selling" href="/products" products={bestProducts} />
+      <ProductLayout
+        title="top selling"
+        href="/products"
+        products={bestProducts}
+      />
       {/* Category section */}
       <div className="bg-gray-200 my-10 mx-auto w-[1280px] rounded-3xl">
         <h1 className="text-[48px] uppercase font-extrabold text-center ">
