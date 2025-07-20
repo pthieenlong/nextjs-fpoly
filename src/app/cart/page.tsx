@@ -5,7 +5,7 @@ import { TagIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 
 async function CartPage() {
   return (
-    <section className="max-w-[1280px] m-auto">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <header className="my-4">
         <Breadcrumbs aria-label="breadcrumb">
           <Link underline="hover" color="inherit" href="/">
@@ -15,9 +15,12 @@ async function CartPage() {
         </Breadcrumbs>
       </header>
       <section className="">
-        <h1 className="text-4xl uppercase font-bold">your cart</h1>
-        <section className="flex py-8 gap-4">
-          <section className="w-[70%] flex flex-col px-8 py-4 pb-6 rounded-xl border border-gray-300 first:pt-0">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl uppercase font-bold">
+          your cart
+        </h1>
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 py-8">
+          {/* Cart Items */}
+          <section className="lg:col-span-2 flex flex-col px-4 sm:px-8 py-4 pb-6 rounded-xl border border-gray-300">
             <CartItemComponent
               image="http://localhost:3000/images/products/sleeve-striped-t-shirt.png"
               title="Gradient Graphic T-shirt"
@@ -46,46 +49,55 @@ async function CartPage() {
               quantity={1}
             ></CartItemComponent>
           </section>
-          <section className="flex flex-col gap-4 rounded-xl border-gray-300 w-[30%] px-6 py-4 border">
-            <h2 className="w-full text-2xl mb-4 font-semibold">Order Sumary</h2>
-            <article className="flex flex-col gap-5">
+
+          {/* Order Summary */}
+          <section className="flex flex-col gap-4 rounded-xl border-gray-300 px-4 sm:px-6 py-4 border h-fit">
+            <h2 className="w-full text-xl sm:text-2xl mb-4 font-semibold">
+              Order Summary
+            </h2>
+            <article className="flex flex-col gap-4 sm:gap-5">
               <div className="flex justify-between items-center">
-                <p className="text-gray-500">Subtotal</p>
-                <p className="text-xl font-bold">$565</p>
+                <p className="text-gray-500 text-sm sm:text-base">Subtotal</p>
+                <p className="text-lg sm:text-xl font-bold">$565</p>
               </div>
               <div className="flex justify-between items-center">
-                <p className="text-gray-500">Discount</p>
-                <p className="text-xl text-red-500 font-bold">-$113</p>
+                <p className="text-gray-500 text-sm sm:text-base">Discount</p>
+                <p className="text-lg sm:text-xl text-red-500 font-bold">
+                  -$113
+                </p>
               </div>
               <div className="flex justify-between items-center">
-                <p className="text-gray-500">Delivery Fee</p>
-                <p className="text-xl font-bold">$15</p>
+                <p className="text-gray-500 text-sm sm:text-base">
+                  Delivery Fee
+                </p>
+                <p className="text-lg sm:text-xl font-bold">$15</p>
               </div>
             </article>
             <hr className="my-3 border-gray-300" />
             <div className="flex justify-between items-center">
-              <p className="text-lg">Total</p>
-              <p className="text-xl font-bold">$467</p>
+              <p className="text-base sm:text-lg">Total</p>
+              <p className="text-lg sm:text-xl font-bold">$467</p>
             </div>
-            <article className="flex justify-between items-center">
-              <div className="flex gap-4 border border-gray-300 rounded-full pl-3 pr-1 py-2 items-center">
+            <article className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <div className="flex gap-2 sm:gap-4 border border-gray-300 rounded-full pl-3 pr-1 py-2 items-center flex-1">
                 <label htmlFor="coupon">
-                  <TagIcon className="w-6 h-6" />
+                  <TagIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                 </label>
                 <input
                   type="text"
                   id="coupon"
                   name="coupon"
-                  className="focus:outline-none"
+                  className="focus:outline-none flex-1 text-sm sm:text-base"
+                  placeholder="Coupon code"
                 />
               </div>
-              <button className="px-5 py-2 bg-black text-white rounded-full">
+              <button className="px-4 sm:px-5 py-2 bg-black text-white rounded-full text-sm sm:text-base hover:bg-gray-800 transition-colors">
                 Apply
               </button>
             </article>
-            <button className="flex justify-center items-center gap-5 bg-black text-white py-3 rounded-full hover:cursor-pointer">
+            <button className="flex justify-center items-center gap-3 sm:gap-5 bg-black text-white py-3 rounded-full hover:cursor-pointer hover:bg-gray-800 transition-colors text-sm sm:text-base">
               <span>Go to Checkout</span>
-              <ArrowRightIcon className="w-6 h-6" />
+              <ArrowRightIcon className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           </section>
         </section>
