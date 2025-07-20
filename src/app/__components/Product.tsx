@@ -36,50 +36,56 @@ export default function Product({
   className = "",
 }: IProductProp) {
   const salePrice = isSale ? (price * salePercent) / 100 : 0;
-  const imageSrc = `${API_PUBLIC_ROUTE}${image}`;
+  const imageSrc =
+    image === "https://placehold.co/600x400"
+      ? `${image}`
+      : `${API_PUBLIC_ROUTE}${image}`;
   return (
-    <article className={`max-w-[275px] max-h-[500px]`}>
+    <article className="flex flex-col h-full">
       <div
         className={`${
-          className ? className : "w-[250px] h-[300px]"
-        } overflow-hidden inline-block rounded-lg relative`}
+          className ? className : "w-full h-[300px]"
+        } overflow-hidden rounded-lg relative`}
       >
         <Image
           loader={() => imageSrc}
           src={imageSrc}
           alt={slug}
-          className="w-full hover:scale-125 transition-all"
+          className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
           crossOrigin="anonymous"
           fill={true}
           unoptimized
         />
       </div>
-      <div className="">
-        <Link href={`/product/${slug}`} className="font-bold text-xl">
+      <div className="flex-1 flex flex-col p-4">
+        <Link
+          href={`/product/${slug}`}
+          className="font-bold text-lg sm:text-xl hover:text-gray-600 transition-colors"
+        >
           {name}
         </Link>
-        <div className="flex items-center gap-5">
-          <Rating style={{ maxWidth: 120 }} value={rating} readOnly={true} />
-          <span>{rating}/5</span>
+        <div className="flex items-center gap-2 sm:gap-5 mt-2">
+          <Rating style={{ maxWidth: 100 }} value={rating} readOnly={true} />
+          <span className="text-sm sm:text-base">{rating}/5</span>
         </div>
-        <div className="flex gap-3">
-          <p className="text-black font-bold text-xl">${price}</p>
+        <div className="flex gap-2 sm:gap-3 mt-2 flex-wrap">
+          <p className="text-black font-bold text-lg sm:text-xl">${price}</p>
           <p
-            className={`line-through text-black opacity-40 font-bold text-xl ${
+            className={`line-through text-black opacity-40 font-bold text-lg sm:text-xl ${
               isSale ? "" : "hidden"
             }`}
           >
             ${salePrice}
           </p>
           <p
-            className={`text-red-500 bg-red-300 rounded-4xl px-2 py-1 ${
+            className={`text-red-500 bg-red-100 rounded-full px-2 py-1 text-sm ${
               isSale ? "" : "hidden"
             }`}
           >
             -{salePercent * 100}%
           </p>
         </div>
-        <button className="hover:cursor-pointer px-4 py-2 rounded bg-black text-white">
+        <button className="mt-4 hover:cursor-pointer px-4 py-2 rounded bg-black text-white hover:bg-gray-800 transition-colors text-sm sm:text-base">
           Add to cart
         </button>
       </div>

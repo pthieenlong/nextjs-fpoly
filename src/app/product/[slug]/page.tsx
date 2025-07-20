@@ -11,7 +11,7 @@ async function ProductDetail({ params }: { params: { slug: string } }) {
   const productResponse = await productFetching.json();
   const product = productResponse.data;
   return (
-    <section className="max-w-[1280px] m-auto flex flex-col gap-6">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-6 py-8">
       {/* Breadcrumbs */}
       <Breadcrumbs aria-label="breadcrumb">
         <Link underline="hover" color="inherit" href="/">

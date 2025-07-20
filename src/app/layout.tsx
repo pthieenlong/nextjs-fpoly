@@ -28,10 +28,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <body className={`antialiased`}>
-        <div className="m-auto relative">
+        <div className="relative min-h-screen">
           <Header></Header>
-          <main className="">{children}</main>
+          <main className="flex-1">{children}</main>
           <Footer />
         </div>
       </body>
