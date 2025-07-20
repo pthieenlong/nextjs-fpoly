@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Rating } from "@smastrom/react-rating";
 import { useState } from "react";
 import Image from "next/image";
-import { API_PUBLIC_ROUTE } from "@/__const/const";
+import { API_PUBLIC_ROUTE } from "@/config/const";
+import axios from "axios";
 
 export interface IProductProp {
   image: string;
@@ -15,16 +16,7 @@ export interface IProductProp {
   salePercent: number;
   className?: string;
 }
-export interface IProduct {
-  name: string;
-  price: number;
-  slug: string;
-  images: string[];
-  categories: string[];
-  rating: number;
-  isSale: boolean;
-  salePercent: number;
-}
+
 export default function Product({
   image,
   name,
@@ -35,6 +27,30 @@ export default function Product({
   salePercent = 0,
   className = "",
 }: IProductProp) {
+  const [adding, setAdding] = useState(false);
+
+  // Hàm xử lý thêm vào giỏ hàng
+  const handleAddToCart = async () => {
+    setAdding(true);
+    try {
+      await axios.post("/api/cart", {
+        sessionId: "demo-session-id", // Thực tế nên lấy từ cookie/localStorage
+        item: {
+          productId: slug,
+          name,
+          price,
+          quantity: 1,
+          image,
+        },
+      });
+      alert("Đã thêm vào giỏ hàng!");
+    } catch (err) {
+      alert("Thêm vào giỏ hàng thất bại!");
+    } finally {
+      setAdding(false);
+    }
+  };
+
   const salePrice = isSale ? (price * salePercent) / 100 : 0;
   const imageSrc =
     image === "https://placehold.co/600x400"
@@ -85,8 +101,12 @@ export default function Product({
             -{salePercent * 100}%
           </p>
         </div>
-        <button className="mt-4 hover:cursor-pointer px-4 py-2 rounded bg-black text-white hover:bg-gray-800 transition-colors text-sm sm:text-base">
-          Add to cart
+        <button
+          className="mt-4 hover:cursor-pointer px-4 py-2 rounded bg-black text-white hover:bg-gray-800 transition-colors text-sm sm:text-base"
+          onClick={handleAddToCart}
+          disabled={adding}
+        >
+          {adding ? "Adding..." : "Add to cart"}
         </button>
       </div>
     </article>

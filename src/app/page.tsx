@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ProductLayout } from "./__layout/Product.layout";
-import { API_ROUTE } from "@/__const/const";
+import { API_ROUTE } from "@/config/const";
 import { useEffect, useState } from "react";
 const brands = [
   {

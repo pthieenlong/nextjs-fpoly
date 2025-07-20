@@ -1,5 +1,5 @@
 "use client";
-import { API_ROUTE } from "@/__const/const";
+import { API_ROUTE } from "@/config/const";
 import { Breadcrumbs, Typography, Link } from "@mui/material";
 import {
   AdjustmentsVerticalIcon,

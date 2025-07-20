@@ -1,4 +1,4 @@
-import { API_ROUTE } from "@/__const/const";
+import { API_ROUTE } from "@/config/const";
 import { Breadcrumbs, Typography, Link } from "@mui/material";
 import {
   AdjustmentsVerticalIcon,
@@ -9,8 +9,6 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Product from "../__components/Product";
-import { useState } from "react";
-
 async function SearchLayout({
   searchParams,
 }: {

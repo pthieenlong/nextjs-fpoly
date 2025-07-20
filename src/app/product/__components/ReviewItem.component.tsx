@@ -2,7 +2,7 @@ import { CheckIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { Rating } from "@smastrom/react-rating";
 export default function ReviewItemComponent() {
   return (
-    <article className="max-w-[610px] border border-gray-400 rounded-xl px-6 py-4">
+    <article className="max-w-[600px] border border-gray-400 rounded-xl px-6 py-4">
       <div className="flex items-center justify-between">
         <div>
           <Rating style={{ maxWidth: 120 }} value={4.5} readOnly={true} />

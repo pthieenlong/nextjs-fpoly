@@ -1,5 +1,6 @@
 import Link from "next/link";
-import Product, { IProduct } from "../__components/Product";
+import Product from "../__components/Product";
+import { IProduct } from "../product/__model/product.model";
 
 export function ProductLayout({
   title,

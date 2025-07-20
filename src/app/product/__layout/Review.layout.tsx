@@ -2,7 +2,7 @@ import {
   AdjustmentsVerticalIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
-import ReviewItemComponent from "../__component/ReviewItem.component";
+import ReviewItemComponent from "../__components/ReviewItem.component";
 export function ReviewLayout() {
   return (
     <section className="px-auto">
