@@ -11,8 +11,6 @@ export interface CartItemProps {
   color: string;
   defaultPrice: number;
   quantity: number;
-
-  // onRemove
 }
 function CartItemComponent(props: CartItemProps) {
   const [price, setPrice] = useState(props.defaultPrice ?? 1);

@@ -5,23 +5,9 @@ import React, { useEffect, useState } from "react";
 import CartItemComponent from "./__component/CartItem.component";
 import { TagIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 
-// Giả sử bạn dùng sessionId cho user chưa đăng nhập
-const SESSION_ID = "demo-session-id"; // Thực tế nên lấy từ cookie hoặc localStorage
-
 export default function CartPage() {
   const [cart, setCart] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`/api/cart?sessionId=${SESSION_ID}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setCart(data);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

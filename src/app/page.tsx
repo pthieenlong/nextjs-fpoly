@@ -4,49 +4,12 @@ import Link from "next/link";
 import { ProductLayout } from "./__layout/Product.layout";
 import { API_ROUTE } from "@/config/const";
 import { useEffect, useState } from "react";
-const brands = [
-  {
-    id: "versace",
-    url: "brands/versace.png",
-    alt: "versace",
-  },
-  {
-    id: "gucci",
-    url: "brands/gucci.png",
-    alt: "gucci",
-  },
-  {
-    id: "prada",
-    url: "brands/prada.png",
-    alt: "prada",
-  },
-  {
-    id: "ck",
-    url: "brands/ck.png",
-    alt: "ck",
-  },
-  {
-    id: "zara",
-    url: "brands/zara.png",
-    alt: "zara",
-  },
-];
+import Brand from "./brand/Brand.component";
 
-function Brand({ url, alt }: { url: string; alt: string }) {
-  return (
-    <div className="flex items-center justify-center p-4">
-      <img
-        src={url}
-        alt={alt}
-        className="max-h-12 sm:max-h-16 object-contain"
-      />
-    </div>
-  );
-}
 function Home() {
   const [bestProducts, setBestProducts] = useState([]);
   const [newProducts, setNewProducts] = useState([]);
-
+  const [brands, setBrands] = useState([]);
   useEffect(() => {
     fetch(`${API_ROUTE}/product/best`)
       .then((response) => {
@@ -70,6 +33,14 @@ function Home() {
       })
       .catch((error) => {
         console.log(error);
+      });
+
+    fetch(`/api/brands`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setBrands(data);
       });
   }, []);
   return (
@@ -128,9 +99,14 @@ function Home() {
       <div className="bg-black w-full py-6">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 items-center">
-            {brands.map((brand) => {
-              return <Brand url={brand.url} alt={brand.alt} key={brand.id} />;
-            })}
+            {brands.map((brand) => (
+              <Brand
+                key={(brand as any)._id}
+                url={(brand as any)?.image}
+                alt={(brand as any)?.name}
+                _id={(brand as any)._id}
+              />
+            ))}
           </div>
         </section>
       </div>
@@ -138,7 +114,7 @@ function Home() {
       <div className="px-4 sm:px-6 lg:px-8">
         <ProductLayout
           title="new arrivals"
-          href="/products"
+          href="/product"
           products={newProducts}
         />
       </div>
@@ -146,7 +122,7 @@ function Home() {
       <div className="px-4 sm:px-6 lg:px-8">
         <ProductLayout
           title="top selling"
-          href="/products"
+          href="/product"
           products={bestProducts}
         />
       </div>

@@ -27,30 +27,6 @@ export default function Product({
   salePercent = 0,
   className = "",
 }: IProductProp) {
-  const [adding, setAdding] = useState(false);
-
-  // Hàm xử lý thêm vào giỏ hàng
-  const handleAddToCart = async () => {
-    setAdding(true);
-    try {
-      await axios.post("/api/cart", {
-        sessionId: "demo-session-id", // Thực tế nên lấy từ cookie/localStorage
-        item: {
-          productId: slug,
-          name,
-          price,
-          quantity: 1,
-          image,
-        },
-      });
-      alert("Đã thêm vào giỏ hàng!");
-    } catch (err) {
-      alert("Thêm vào giỏ hàng thất bại!");
-    } finally {
-      setAdding(false);
-    }
-  };
-
   const salePrice = isSale ? (price * salePercent) / 100 : 0;
   const imageSrc =
     image === "https://placehold.co/600x400"
@@ -103,10 +79,11 @@ export default function Product({
         </div>
         <button
           className="mt-4 hover:cursor-pointer px-4 py-2 rounded bg-black text-white hover:bg-gray-800 transition-colors text-sm sm:text-base"
-          onClick={handleAddToCart}
-          disabled={adding}
+          // onClick={handleAddToCart}
+          // disabled={adding}
         >
-          {adding ? "Adding..." : "Add to cart"}
+          {/* {adding ? "Adding..." : "Add to cart"} */}
+          Add to cart
         </button>
       </div>
     </article>
