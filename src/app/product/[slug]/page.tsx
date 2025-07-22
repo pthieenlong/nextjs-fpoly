@@ -1,6 +1,6 @@
 import React from "react";
 import { Breadcrumbs, Link, Typography } from "@mui/material";
-import { API_ROUTE } from "@/__const/const";
+import { API_ROUTE } from "@/config/const";
 import ProductLayout from "../__layout/Product.layout";
 import ContentLayout from "../__layout/Content.layout";
 async function ProductDetail({ params }: { params: { slug: string } }) {

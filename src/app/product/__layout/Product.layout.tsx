@@ -3,11 +3,11 @@ import Image from "next/image";
 import { Rating } from "@smastrom/react-rating";
 import {
   ColorComponent,
-  SizeComponent,
-  QuantityComponent,
   ProductImageItemComponent,
-} from "../__component";
-import { API_PUBLIC_ROUTE } from "@/__const/const";
+  QuantityComponent,
+  SizeComponent,
+} from "../__components";
+import { API_ROUTE, API_PUBLIC_ROUTE } from "@/config/const";
 function ProductLayout({ product }: { product: any }) {
   return (
     <article className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
