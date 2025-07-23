@@ -85,7 +85,7 @@ function Header() {
             <Link href="/cart" className="hover:text-gray-600">
               <ShoppingCartIcon className="w-6 h-6" />
             </Link>
-            <Link href="/" className="hover:text-gray-600">
+            <Link href="/auth" className="hover:text-gray-600">
               <UserCircleIcon className="w-6 h-6" />
             </Link>
           </div>
@@ -156,9 +156,8 @@ function Header() {
               <Link href="/" className="hover:text-gray-600">
                 Brands
               </Link>
-              <Link href="/" className="hover:text-gray-600">
+              <Link href="/auth" className="hover:text-gray-600">
                 <UserCircleIcon className="w-6 h-6 inline mr-2" />
-                Account
               </Link>
             </nav>
           </div>
