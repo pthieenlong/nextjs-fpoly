@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { TrashIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { API_PUBLIC_ROUTE } from "@/config/const";
 export interface CartItemProps {
   title: string;
   slug: string;
@@ -15,19 +16,18 @@ export interface CartItemProps {
 function CartItemComponent(props: CartItemProps) {
   const [price, setPrice] = useState(props.defaultPrice ?? 1);
   const [quantity, setQuantity] = useState(props.quantity ?? 1);
-  const onQuantityChange = () => {};
 
+  const imageSrc =
+    props.image === "https://placehold.co/600x400"
+      ? `${props.image}`
+      : `${API_PUBLIC_ROUTE}${props.image}`;
   return (
     <article className="relative py-6 flex w-full gap-4 border-b border-gray-300">
       <button className="absolute z-10  right-0">
         <TrashIcon className="w-6 h-6 text-red-500" />
       </button>
       <div className="relative w-48 overflow-hidden rounded-xl">
-        <Image
-          fill={true}
-          src={"https://placehold.co/600x400"}
-          alt={props.slug}
-        ></Image>
+        <Image fill={true} src={imageSrc} alt={props.slug}></Image>
       </div>
       <div className="w-full">
         <Link href={`/product/${props.slug}`} className="text-xl font-semibold">
