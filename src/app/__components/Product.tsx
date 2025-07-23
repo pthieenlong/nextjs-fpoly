@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
 import { Rating } from "@smastrom/react-rating";
-import { useState } from "react";
 import Image from "next/image";
 import { API_PUBLIC_ROUTE } from "@/config/const";
-import axios from "axios";
-
+import { useDispatch } from "react-redux";
+import { addItem } from "@/lib/slice/cartSlice";
+import { CartItem } from "../cart";
 export interface IProductProp {
   image: string;
   name: string;
@@ -32,6 +32,8 @@ export default function Product({
     image === "https://placehold.co/600x400"
       ? `${image}`
       : `${API_PUBLIC_ROUTE}${image}`;
+  const cartItem = {image, slug, name, price, quantity: 1} as CartItem
+  const dispatch = useDispatch();
   return (
     <article className="flex flex-col h-full">
       <div
@@ -79,8 +81,7 @@ export default function Product({
         </div>
         <button
           className="mt-4 hover:cursor-pointer px-4 py-2 rounded bg-black text-white hover:bg-gray-800 transition-colors text-sm sm:text-base"
-          // onClick={handleAddToCart}
-          // disabled={adding}
+          onClick={() => dispatch(addItem(cartItem))}
         >
           {/* {adding ? "Adding..." : "Add to cart"} */}
           Add to cart

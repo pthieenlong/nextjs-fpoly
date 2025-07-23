@@ -1,6 +1,6 @@
 export interface CartItem {
   id: string;
-  productId: string;
+  slug: string;
   name: string;
   price: number;
   originalPrice?: number;
@@ -27,7 +27,7 @@ export interface CartUpdateRequest {
 }
 
 export interface CartAddRequest {
-  productId: string;
+  slug: string;
   quantity: number;
   size?: string;
   color?: string;

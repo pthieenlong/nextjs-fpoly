@@ -33,9 +33,9 @@ const calculateCartTotals = (items: CartItem[]) => {
 
   return { totalItems, subtotal, discount, total };
 }
-const findExistingItem = (items: CartItem[], productId: string, size?: string, color?: string) => {
+const findExistingItem = (items: CartItem[], slug: string, size?: string, color?: string) => {
   return items.find(item => 
-    item.productId === productId && 
+    item.slug === slug && 
     item.size === size && 
     item.color === color
   );
@@ -46,36 +46,32 @@ export const cartSlice = createSlice({
   reducers: {
     addItem: (state, action: PayloadAction<CartItem>) => {
       const newItem = action.payload;
-      const existingItem = findExistingItem(state.items, newItem.productId, newItem.size, newItem.color);
+      const existingItem = findExistingItem(state.items, newItem.slug, newItem.size, newItem.color);
       if (existingItem) {
-        // Update quantity if item already exists
         existingItem.quantity += newItem.quantity;
       } else {
-        // Add new item
         state.items.push(newItem);
       }
 
-      // Recalculate totals
+      console.log(current(state).items);
+
       const totals = calculateCartTotals(state.items);
       Object.assign(state, totals);
     },
 
-    // Remove item from cart
-    removeItem: (state, action: PayloadAction<{ productId: string; size?: string; color?: string }>) => {
-      const { productId, size, color } = action.payload;
+    removeItem: (state, action: PayloadAction<{ slug: string; size?: string; color?: string }>) => {
+      const { slug, size, color } = action.payload;
       state.items = state.items.filter(item => 
-        !(item.productId === productId && item.size === size && item.color === color)
+        !(item.slug === slug && item.size === size && item.color === color)
       );
 
-      // Recalculate totals
       const totals = calculateCartTotals(state.items);
       Object.assign(state, totals);
     },
 
-    // Update item quantity
-    updateQuantity: (state, action: PayloadAction<{ productId: string; size?: string; color?: string; quantity: number }>) => {
-      const { productId, size, color, quantity } = action.payload;
-      const item = findExistingItem(state.items, productId, size, color);
+    updateQuantity: (state, action: PayloadAction<{ slug: string; size?: string; color?: string; quantity: number }>) => {
+      const { slug, size, color, quantity } = action.payload;
+      const item = findExistingItem(state.items, slug, size, color);
 
       if (item) {
         if (quantity <= 0) {
