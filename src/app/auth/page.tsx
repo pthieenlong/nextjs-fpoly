@@ -8,6 +8,10 @@ import {
   setLoading as setUserLoading,
 } from "@/lib/slice/userSlice";
 import axios from "axios";
+import NotificationList, {
+  NotificationType,
+} from "@/app/__components/Notification";
+import { useRouter } from "next/navigation";
 
 function validateEmail(email: string) {
   // Simple email regex
@@ -39,8 +43,17 @@ export default function AuthPage() {
   }>({ username: false, email: false, password: false, confirm: false });
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   const [showRegisterConfirm, setShowRegisterConfirm] = useState(false);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const addNotification = (message: string, type: NotificationType) => {
+    const id = Math.random().toString(36).substr(2, 9);
+    setNotifications((prev: any[]) => [...prev, { id, message, type }]);
+  };
+  const removeNotification = (id: string) => {
+    setNotifications((prev: any[]) => prev.filter((n) => n.id !== id));
+  };
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   // Email validate text
   let emailErrorText = "";
@@ -137,7 +150,8 @@ export default function AuthPage() {
         dispatch(
           loginSuccess({ username: loginUsername, email: data.email || "" })
         );
-        // Optionally: redirect or show success
+        addNotification("Login successful!", NotificationType.SUCCESS);
+        setTimeout(() => router.push("/"), 1000);
       } else if (data.message === "USER.LOGIN.CONFLICT") {
         setLoginError("Login error. Please try again.");
         dispatch(setUserError("Login error. Please try again."));
@@ -172,6 +186,10 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <NotificationList
+        notifications={notifications}
+        removeNotification={removeNotification}
+      />
       <div className="w-full max-w-md p-8 bg-white rounded-xl shadow-lg relative overflow-hidden">
         {/* Tab Switcher */}
         <div className="flex mb-8 relative h-12">
