@@ -4,25 +4,14 @@ import { Breadcrumbs, Typography, Link } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CartItemComponent from "./__component/CartItem.component";
 import { TagIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
-
-// Giả sử bạn dùng sessionId cho user chưa đăng nhập
-const SESSION_ID = "demo-session-id"; // Thực tế nên lấy từ cookie hoặc localStorage
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 
 export default function CartPage() {
-  const [cart, setCart] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`/api/cart?sessionId=${SESSION_ID}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setCart(data);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-
+  const cart = useSelector((state: RootState) => state.cart.items );
+  console.log("cart: ", cart);
+  
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <header className="my-4">
@@ -40,8 +29,8 @@ export default function CartPage() {
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 py-8">
           {/* Cart Items */}
           <section className="lg:col-span-2 flex flex-col px-4 sm:px-8 py-4 pb-6 rounded-xl border border-gray-300">
-            {cart && cart.items && cart.items.length > 0 ? (
-              cart.items.map((item: any) => (
+            {cart && cart.length > 0 ? (
+              cart.map((item: any) => (
                 <CartItemComponent
                   key={item.productId + (item.size || "") + (item.color || "")}
                   image={item.image}
@@ -71,7 +60,7 @@ export default function CartPage() {
                 <p className="text-lg sm:text-xl font-bold">
                   $
                   {cart
-                    ? cart.items.reduce(
+                    ? cart.reduce(
                         (sum: number, i: any) => sum + i.price * i.quantity,
                         0
                       )
@@ -86,7 +75,7 @@ export default function CartPage() {
               <p className="text-lg sm:text-xl font-bold">
                 $
                 {cart
-                  ? cart.items.reduce(
+                  ? cart.reduce(
                       (sum: number, i: any) => sum + i.price * i.quantity,
                       0
                     )
