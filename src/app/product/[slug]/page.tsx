@@ -4,10 +4,7 @@ import { API_ROUTE } from "@/config/const";
 import ProductLayout from "../__layout/Product.layout";
 import ContentLayout from "../__layout/Content.layout";
 async function ProductDetail({ params }: { params: { slug: string } }) {
-  const resolvedParams = await params;
-  const productFetching = await fetch(
-    `${API_ROUTE}/product/${resolvedParams.slug}`
-  );
+  const productFetching = await fetch(`${API_ROUTE}/product/${params.slug}`);
   const productResponse = await productFetching.json();
   const product = productResponse.data;
   return (
