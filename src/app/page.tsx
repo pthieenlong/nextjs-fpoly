@@ -12,7 +12,7 @@ type Brand = {
   image: string;
 };
 
-type Product = any; // Bạn nên định nghĩa type Product nếu muốn strict hơn
+type Product = any;
 
 function Home() {
   const [bestProducts, setBestProducts] = useState<Product[]>([]);

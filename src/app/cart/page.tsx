@@ -9,9 +9,8 @@ import { RootState } from "@/lib/store";
 
 export default function CartPage() {
   const [loading, setLoading] = useState(true);
-  const cart = useSelector((state: RootState) => state.cart.items );
-  console.log("cart: ", cart);
-  
+  const cart = useSelector((state: RootState) => state.cart.items);
+
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <header className="my-4">
@@ -32,10 +31,10 @@ export default function CartPage() {
             {cart && cart.length > 0 ? (
               cart.map((item: any) => (
                 <CartItemComponent
-                  key={item.productId + (item.size || "") + (item.color || "")}
+                  key={item.slug + (item.size || "") + (item.color || "")}
                   image={item.image}
                   title={item.name}
-                  slug={item.productId}
+                  slug={item.slug}
                   size={item.size}
                   color={item.color}
                   defaultPrice={item.price}

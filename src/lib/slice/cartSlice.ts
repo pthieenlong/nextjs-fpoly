@@ -52,19 +52,15 @@ export const cartSlice = createSlice({
       } else {
         state.items.push(newItem);
       }
-
-      console.log(current(state).items);
-
       const totals = calculateCartTotals(state.items);
       Object.assign(state, totals);
     },
 
-    removeItem: (state, action: PayloadAction<{ slug: string; size?: string; color?: string }>) => {
-      const { slug, size, color } = action.payload;
-      state.items = state.items.filter(item => 
-        !(item.slug === slug && item.size === size && item.color === color)
-      );
-
+    removeItem: (state, action: PayloadAction<{ slug: string }>) => {
+      const { slug } = action.payload;
+      
+      state.items = state.items.filter(item => item.slug !== slug);
+      
       const totals = calculateCartTotals(state.items);
       Object.assign(state, totals);
     },
@@ -72,22 +68,19 @@ export const cartSlice = createSlice({
     updateQuantity: (state, action: PayloadAction<{ slug: string; size?: string; color?: string; quantity: number }>) => {
       const { slug, size, color, quantity } = action.payload;
       const item = findExistingItem(state.items, slug, size, color);
-
+    
       if (item) {
         if (quantity <= 0) {
-          // Remove item if quantity is 0 or negative
           state.items = state.items.filter(i => i !== item);
         } else {
           item.quantity = quantity;
         }
-
-        // Recalculate totals
+    
         const totals = calculateCartTotals(state.items);
         Object.assign(state, totals);
       }
     },
 
-    // Clear entire cart
     clearCart: (state) => {
       state.items = [];
       state.totalItems = 0;
