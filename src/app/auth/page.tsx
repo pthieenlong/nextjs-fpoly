@@ -1,5 +1,13 @@
 "use client";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { API_ROUTE } from "@/config/const";
+import {
+  loginSuccess,
+  setError as setUserError,
+  setLoading as setUserLoading,
+} from "@/lib/slice/userSlice";
+import axios from "axios";
 
 function validateEmail(email: string) {
   // Simple email regex
@@ -32,6 +40,8 @@ export default function AuthPage() {
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   const [showRegisterConfirm, setShowRegisterConfirm] = useState(false);
 
+  const dispatch = useDispatch();
+
   // Email validate text
   let emailErrorText = "";
   if (registerTouched.email) {
@@ -42,23 +52,8 @@ export default function AuthPage() {
     }
   }
 
-  // Validate login
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!loginUsername || !loginPassword) {
-      setLoginError("Username and password are required.");
-      return;
-    }
-    if (loginPassword.length < 6) {
-      setLoginError("Password must be at least 6 characters.");
-      return;
-    }
-    setLoginError("");
-    // TODO: handle login logic
-  };
-
   // Validate register
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (
       !registerUsername ||
@@ -82,7 +77,86 @@ export default function AuthPage() {
       return;
     }
     setRegisterError("");
-    // TODO: handle register logic
+    try {
+      const res = await axios.post(`${API_ROUTE}/auth/register`, {
+        username: registerUsername,
+        email: registerEmail,
+        password: registerPassword,
+        confirmPassword: registerConfirm,
+      });
+      const data: any = res.data;
+      if (data.message === "USER.REGISTER.EXIST") {
+        setRegisterError("User already exists.");
+      } else if (data.message === "USER.REGISTER.CONFLICT") {
+        setRegisterError("Registration error. Please try again.");
+      } else if (data.message === "USER.REGISTER.SUCCESS") {
+        setRegisterError("");
+        alert("Register success! Please login.");
+        setTab("login");
+      } else {
+        setRegisterError("Unknown error. Please try again.");
+      }
+    } catch (err: any) {
+      setRegisterError(
+        err.response?.data?.message || "Network error. Please try again."
+      );
+    }
+  };
+
+  // Validate login
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!loginUsername || !loginPassword) {
+      setLoginError("Username and password are required.");
+      return;
+    }
+    if (loginPassword.length < 6) {
+      setLoginError("Password must be at least 6 characters.");
+      return;
+    }
+    setLoginError("");
+    dispatch(setUserLoading(true));
+    try {
+      const res = await axios.post(
+        `${API_ROUTE}/auth/login`,
+        {
+          username: loginUsername,
+          password: loginPassword,
+        },
+        { withCredentials: true }
+      );
+      const data: any = res.data;
+      if (data.message === "USER.LOGIN.NOT_FOUND") {
+        setLoginError("User not found.");
+        dispatch(setUserError("User not found."));
+      } else if (data.message === "USER.LOGIN.INCORRECT") {
+        setLoginError("Incorrect password.");
+        dispatch(setUserError("Incorrect password."));
+      } else if (data.message === "USER.LOGIN.SUCCESS") {
+        setLoginError("");
+        dispatch(
+          loginSuccess({ username: loginUsername, email: data.email || "" })
+        );
+        // Optionally: redirect or show success
+      } else if (data.message === "USER.LOGIN.CONFLICT") {
+        setLoginError("Login error. Please try again.");
+        dispatch(setUserError("Login error. Please try again."));
+      } else {
+        setLoginError("Unknown error. Please try again.");
+        dispatch(setUserError("Unknown error. Please try again."));
+      }
+    } catch (err: any) {
+      setLoginError(
+        err.response?.data?.message || "Network error. Please try again."
+      );
+      dispatch(
+        setUserError(
+          err.response?.data?.message || "Network error. Please try again."
+        )
+      );
+    } finally {
+      dispatch(setUserLoading(false));
+    }
   };
 
   // Helper for input error style
