@@ -4,13 +4,39 @@ import { Breadcrumbs, Typography, Link } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CartItemComponent from "./__component/CartItem.component";
 import { TagIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
-
+import { NotificationType } from "../__components/Notification";
+import { useRouter } from "next/navigation";
+import { API_ROUTE } from "@/config/const";
+import axios from "axios";
+import { clearCart } from "@/lib/slice/cartSlice";
 export default function CartPage() {
-  const [loading, setLoading] = useState(true);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const addNotification = (message: string, type: NotificationType) => {
+    const id = Math.random().toString(36).substr(2, 9);
+    setNotifications((prev: any[]) => [...prev, { id, message, type }]);
+  };
+  const removeNotification = (id: string) => {
+    setNotifications((prev: any[]) => prev.filter((n) => n.id !== id));
+  };
   const cart = useSelector((state: RootState) => state.cart.items);
-
+  const user = useSelector((state: RootState) => state.user)
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const checkoutHandler = () => {
+    const username = user.username;
+    
+    axios.post(`${API_ROUTE}/cart/checkout/${username}`, {
+      products: cart
+    }).then((result) => result.data).then(data => {
+      console.log(data)
+    })
+    // console.log(result);
+    alert('Đơn hàng đã thanh toán thành công')!
+    dispatch(clearCart())
+    router.push('/');
+  }
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <header className="my-4">
@@ -26,7 +52,6 @@ export default function CartPage() {
           your cart
         </h1>
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 py-8">
-          {/* Cart Items */}
           <section className="lg:col-span-2 flex flex-col px-4 sm:px-8 py-4 pb-6 rounded-xl border border-gray-300">
             {cart && cart.length > 0 ? (
               cart.map((item: any) => (
@@ -47,8 +72,6 @@ export default function CartPage() {
               </div>
             )}
           </section>
-
-          {/* Order Summary */}
           <section className="flex flex-col gap-4 rounded-xl border-gray-300 px-4 sm:px-6 py-4 border h-fit">
             <h2 className="w-full text-xl sm:text-2xl mb-4 font-semibold">
               Order Summary
@@ -98,7 +121,8 @@ export default function CartPage() {
                 Apply
               </button>
             </article>
-            <button className="flex justify-center items-center gap-3 sm:gap-5 bg-black text-white py-3 rounded-full hover:cursor-pointer hover:bg-gray-800 transition-colors text-sm sm:text-base">
+            <button className="flex justify-center items-center gap-3 sm:gap-5 bg-black text-white py-3 rounded-full hover:cursor-pointer hover:bg-gray-800 transition-colors text-sm sm:text-base"
+            onClick={() => cart.length && checkoutHandler()}>
               <span>Go to Checkout</span>
               <ArrowRightIcon className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>

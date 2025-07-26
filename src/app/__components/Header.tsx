@@ -10,6 +10,8 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 function Header() {
   const categories = [
     { name: "Casual", image: "/category/casual.png" },
@@ -20,6 +22,8 @@ function Header() {
   const [isBoxOpen, setBoxOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [search, setSearch] = useState("");
+
+  const isLogin = useSelector((state: RootState) => state.user.isLoggedIn);
 
   const router = useRouter();
   return (
@@ -85,7 +89,7 @@ function Header() {
             <Link href="/cart" className="hover:text-gray-600">
               <ShoppingCartIcon className="w-6 h-6" />
             </Link>
-            <Link href="/auth" className="hover:text-gray-600">
+            <Link href={`${isLogin ? '/user' : '/auth'}`} className="hover:text-gray-600">
               <UserCircleIcon className="w-6 h-6" />
             </Link>
           </div>
@@ -156,7 +160,7 @@ function Header() {
               <Link href="/" className="hover:text-gray-600">
                 Brands
               </Link>
-              <Link href="/auth" className="hover:text-gray-600">
+              <Link href={`${isLogin ? '/user' : '/auth'}`} className="hover:text-gray-600">
                 <UserCircleIcon className="w-6 h-6 inline mr-2" />
               </Link>
             </nav>
